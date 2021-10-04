@@ -17,13 +17,21 @@ The options menu has a difficulty adjuster, and a color scheme picker.
 
 #### 2.1 User Interface
 **2.1.1 Main Menu**
+
 ![Main Menu Diagram](/assets/images/MainMenu.PNG)
+
 **2.1.2 Game Activity**
+
 ![Game Activity Diagram](/assets/images/GameActivity.PNG)
+
 **2.1.3 Stats Page**
+
 ![Stats Page DIagram](/assets/images/StatsPage.PNG)
+
 **2.1.4 Options Menu**
-![Option Menu Diagram](/assets/images/OptionsMenu.PNG)
+
+![Option Menu Diagram](/assets/images/OptionMenu.PNG)
+
 
 #### 2.2 Data Persistence
 The following will be stored locally on the device:
