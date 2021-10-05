@@ -1,5 +1,4 @@
-# Ad-Free Sodoku
-## README.md
+# Ad-Free Sodoku (README.md)
 
 ## 1 Motivation
 Ad-Free Sodoku is an app that allows you to play Sodoku puzzles, and doesn't contain any annoy adds, or in-app purchases. 
@@ -76,7 +75,7 @@ App Will have integration with Google Play (Better Desc. Coming Soon)
 
 * TITLE: TEXTVIEW-Time/Score
 
-* DESC: Shows current elapsed time for app being open since puzzle was started.
+* DESC: Shows current elapsed time since puzzle was started and open on screen.
 
 **3.1.2.2**
 
