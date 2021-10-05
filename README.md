@@ -16,19 +16,19 @@ The Stats Page shows all data stored by the app (EX: High Score (Best Time), Tot
 The options menu has a difficulty adjuster, and a color scheme picker.
 
 ### 2.1 User Interface
-####2.1.1 Main Menu
+#### 2.1.1 Main Menu
 
 ![Main Menu Diagram](/assets/images/MainMenu.PNG)
 
-####2.1.2 Game Activity
+#### 2.1.2 Game Activity
 
 ![Game Activity Diagram](/assets/images/GameActivity.PNG)
 
-####2.1.3 Stats Page
+#### 2.1.3 Stats Page
 
 ![Stats Page DIagram](/assets/images/StatsPage.PNG)
 
-####2.1.4 Options Menu
+#### 2.1.4 Options Menu
 
 ![Option Menu Diagram](/assets/images/OptionMenu.PNG)
 
@@ -50,7 +50,7 @@ App Will have integration with Google Play (Better Desc. Coming Soon)
 ## 3 MVC Breakdown
 
 ### 3.1 View Descriptions
-####3.1.1 Main Menu
+#### 3.1.1 Main Menu
 
 **3.1.1.1**
 
@@ -70,7 +70,7 @@ App Will have integration with Google Play (Better Desc. Coming Soon)
 
 * DESC: OnClick: Starts the Options Activity
 
-####3.1.2 Game Activity
+#### 3.1.2 Game Activity
 
 **3.1.2.1**
 
@@ -118,7 +118,7 @@ App Will have integration with Google Play (Better Desc. Coming Soon)
 
 * DESC: OnClick(number picked) If a TextView in GAMEVIEW is NOT highlighted, the number picked is highlighted, and some "hints" may be displayed.
 
-####3.1.3 Stats Page
+#### 3.1.3 Stats Page
 
 **3.1.3.1**
 
@@ -132,7 +132,7 @@ App Will have integration with Google Play (Better Desc. Coming Soon)
 
 * DESC: Returns to the Main Menu Activity
 
-####3.1.4 Options Menu
+#### 3.1.4 Options Menu
 
 **3.1.4.1**
 
