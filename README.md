@@ -153,6 +153,26 @@ App Will have integration with Google Play (Better Desc. Coming Soon)
 
 ### 3.2 Model Descriptions
 
+#### 3.2.1 Stat Model
+
+* High Score (hh:mm:ss): The fastest time to complete a sodoku puzzle
+* Average Score (hh:mm:ss): The average time to complete a sodoku puzzle
+* Total Games Played (Integer): The total number of games started
+* Total Games Won (Integer): The total number of games won, (Integer): The % ratio of games won to games plated
+* Current Win Streak (Integer): The number of games won in a row without reseting the board
+* Longest Win Streak (Integer): The higest recorded value for Current Win Streak
+
+#### 3.2.2 Game State Model
+
+* Game State (Array<Integers>): Containing all the values in the GAME VIEW
+  
+#### 3.2.3 App Settings Model
+  
+* Difficulty (Integer): Sets the dificulty of newly generated games
+  * Used in Game State when generating a new game
+* Theme (String): The name of the theme, as corresponding to the RadioButton selected in the menu
+  * Used throughout app to determine colors of objects
+
 ### 3.3 Controller Descriptions
 The Game Activity and Options Menu will both have view models that store the data contained within them. 
 Data will be saved as it is inputed, and will persist after termination.
