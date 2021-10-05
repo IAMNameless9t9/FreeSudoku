@@ -154,4 +154,7 @@ App Will have integration with Google Play (Better Desc. Coming Soon)
 ### 3.2 Model Descriptions
 
 ### 3.3 Controller Descriptions
-The Game Activity, and Options Menu will both have view models that store the data contained within them.
+The Game Activity, and Options Menu will both have view models that store the data contained within them. 
+Data will be saved as it is inputed, and will persist after termination.
+ViewModels will be used to save data while the app is running, and data will be saved locally when the app is terminated.
+OnCreate will pull all of the locally saved data and re-instantiate it into the ViewModels.
