@@ -42,239 +42,68 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@color/black">
 
-        <GridLayout
-            android:id="@+id/topLeftGrid"
-            android:layout_width="117dp"
-            android:layout_height="117dp"
-            android:rowCount="3"
-            android:columnCount="3"
+        <com.example.freesodoku.RoomLayout
+            android:id="@+id/topLeftRoom"
             android:layout_marginTop="2dp"
             android:layout_marginStart="2dp"
             android:layout_marginEnd="1dp"
-            android:layout_marginBottom="1dp"
-            android:background="@color/black">
+            android:layout_marginBottom="1dp"/>
 
-            <TextView
-                android:id="@+id/topLeftTopLeftBox"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_marginEnd="1dp"
-                android:layout_marginBottom="1dp"
-                android:background="@color/white"/>
-            <TextView
-                android:id="@+id/topLeftTopCenterBox"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_marginBottom="1dp"
-                android:background="@color/white"/>
-            <TextView
-                android:id="@+id/topLeftTopRightBox"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_marginStart="1dp"
-                android:layout_marginBottom="1dp"
-                android:background="@color/white"/>
-            <TextView
-                android:id="@+id/topLeftMiddleLeftBox"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_marginEnd="1dp"
-                android:background="@color/white"/>
-            <TextView
-                android:id="@+id/topLeftMiddleCenterBox"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:background="@color/white"/>
-            <TextView
-                android:id="@+id/topLeftMiddleRightBox"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_marginStart="1dp"
-                android:background="@color/white"/>
-            <TextView
-                android:id="@+id/topLeftBottomLeftBox"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_marginEnd="1dp"
-                android:layout_marginTop="1dp"
-                android:background="@color/white"/>
-            <TextView
-                android:id="@+id/topLeftBottomCenterBox"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_marginTop="1dp"
-                android:background="@color/white"/>
-            <TextView
-                android:id="@+id/topLeftBottomRightBox"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_marginStart="1dp"
-                android:layout_marginTop="1dp"
-                android:background="@color/white"/>
-
-        </GridLayout>
-        <GridLayout
-            android:id="@+id/topCenterGrid"
-            android:layout_width="117dp"
-            android:layout_height="117dp"
-            android:rowCount="3"
-            android:columnCount="3"
+        <com.example.freesodoku.RoomLayout
+            android:id="@+id/topCenterRoom"
             android:layout_marginTop="2dp"
-            android:layout_marginStart="1dp"
-            android:layout_marginEnd="1dp"
-            android:layout_marginBottom="1dp"
-            android:background="@color/black">
-
-            <TextView
-                android:id="@+id/topCenterTopLeftBox"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_marginEnd="1dp"
-                android:layout_marginBottom="1dp"
-                android:background="@color/white"/>
-            <TextView
-                android:id="@+id/topCenterTopCenterBox"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_marginBottom="1dp"
-                android:background="@color/white"/>
-            <TextView
-                android:id="@+id/topCenterTopRightBox"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_marginStart="1dp"
-                android:layout_marginBottom="1dp"
-                android:background="@color/white"/>
-            <TextView
-                android:id="@+id/topCenterMiddleLeftBox"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_marginEnd="1dp"
-                android:background="@color/white"/>
-            <TextView
-                android:id="@+id/topCenterMiddleCenterBox"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:background="@color/white"/>
-            <TextView
-                android:id="@+id/topCenterMiddleRightBox"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_marginStart="1dp"
-                android:background="@color/white"/>
-            <TextView
-                android:id="@+id/topCenterBottomLeftBox"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_marginEnd="1dp"
-                android:layout_marginTop="1dp"
-                android:background="@color/white"/>
-            <TextView
-                android:id="@+id/topCenterBottomCenterBox"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_marginTop="1dp"
-                android:background="@color/white"/>
-            <TextView
-                android:id="@+id/topCenterBottomRightBox"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_marginStart="1dp"
-                android:layout_marginTop="1dp"
-                android:background="@color/white"/>
-
-        </GridLayout>
-        <GridLayout
-            android:id="@+id/topRightGrid"
-            android:layout_width="117dp"
-            android:layout_height="117dp"
-            android:rowCount="3"
-            android:columnCount="3"
-            android:layout_marginTop="2dp"
-            android:layout_marginStart="1dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginBottom="1dp"
-            android:background="@color/white">
-
-        </GridLayout>
-        <GridLayout
-            android:id="@+id/middleLeftGrid"
-            android:layout_width="117dp"
-            android:layout_height="117dp"
-            android:rowCount="3"
-            android:columnCount="3"
-            android:layout_marginTop="1dp"
             android:layout_marginStart="2dp"
             android:layout_marginEnd="1dp"
-            android:layout_marginBottom="1dp"
-            android:background="@color/white">
+            android:layout_marginBottom="1dp"/>
 
-        </GridLayout>
-        <GridLayout
-            android:id="@+id/middleCenterGrid"
-            android:layout_width="117dp"
-            android:layout_height="117dp"
-            android:rowCount="3"
-            android:columnCount="3"
-            android:layout_marginTop="1dp"
-            android:layout_marginStart="1dp"
-            android:layout_marginEnd="1dp"
-            android:layout_marginBottom="1dp"
-            android:background="@color/white">
-
-        </GridLayout>
-        <GridLayout
-            android:id="@+id/middleRightGrid"
-            android:layout_width="117dp"
-            android:layout_height="117dp"
-            android:rowCount="3"
-            android:columnCount="3"
-            android:layout_marginTop="1dp"
-            android:layout_marginStart="1dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginBottom="1dp"
-            android:background="@color/white">
-
-        </GridLayout>
-        <GridLayout
-            android:id="@+id/bottomLeftGrid"
-            android:layout_width="117dp"
-            android:layout_height="117dp"
-            android:rowCount="3"
-            android:columnCount="3"
-            android:layout_marginTop="1dp"
+        <com.example.freesodoku.RoomLayout
+            android:id="@+id/topRightRoom"
+            android:layout_marginTop="2dp"
             android:layout_marginStart="2dp"
             android:layout_marginEnd="1dp"
-            android:layout_marginBottom="2dp"
-            android:background="@color/white">
+            android:layout_marginBottom="1dp"/>
 
-        </GridLayout>
-        <GridLayout
-            android:id="@+id/bottomCenterGrid"
-            android:layout_width="117dp"
-            android:layout_height="117dp"
-            android:rowCount="3"
-            android:columnCount="3"
-            android:layout_marginTop="1dp"
-            android:layout_marginStart="1dp"
+        <com.example.freesodoku.RoomLayout
+            android:id="@+id/middleLeftRoom"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="2dp"
             android:layout_marginEnd="1dp"
-            android:layout_marginBottom="2dp"
-            android:background="@color/white">
+            android:layout_marginBottom="1dp"/>
 
-        </GridLayout>
-        <GridLayout
-            android:id="@+id/bottomRightGrid"
-            android:layout_width="117dp"
-            android:layout_height="117dp"
-            android:rowCount="3"
-            android:columnCount="3"
-            android:layout_marginTop="1dp"
-            android:layout_marginStart="1dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginBottom="2dp"
-            android:background="@color/white">
+        <com.example.freesodoku.RoomLayout
+            android:id="@+id/middleCenterRoom"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"/>
 
-        </GridLayout>
+        <com.example.freesodoku.RoomLayout
+            android:id="@+id/rightCenterRoom"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"/>
+
+        <com.example.freesodoku.RoomLayout
+            android:id="@+id/bottomLeftRoom"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"/>
+
+        <com.example.freesodoku.RoomLayout
+            android:id="@+id/bottomCenterRoom"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"/>
+
+        <com.example.freesodoku.RoomLayout
+            android:id="@+id/bottomRightRoom"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"/>
 
     </GridLayout>
 

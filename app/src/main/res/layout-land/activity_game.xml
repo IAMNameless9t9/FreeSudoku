@@ -10,11 +10,74 @@
         android:rowCount="3"
         android:columnCount="3"
         android:layout_height="360dp"
-        android:layout_margin="30dp"
+        android:layout_margin="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/topBar">
+        app:layout_constraintEnd_toStartOf="@id/topBar"
+        android:background="@color/black">
 
+        <com.example.freesodoku.RoomLayout
+            android:id="@+id/topLeftRoom"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"/>
+
+        <com.example.freesodoku.RoomLayout
+            android:id="@+id/topCenterRoom"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"/>
+
+        <com.example.freesodoku.RoomLayout
+            android:id="@+id/topRightRoom"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"/>
+
+        <com.example.freesodoku.RoomLayout
+            android:id="@+id/middleLeftRoom"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"/>
+
+        <com.example.freesodoku.RoomLayout
+            android:id="@+id/middleCenterRoom"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"/>
+
+        <com.example.freesodoku.RoomLayout
+            android:id="@+id/rightCenterRoom"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"/>
+
+        <com.example.freesodoku.RoomLayout
+            android:id="@+id/bottomLeftRoom"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"/>
+
+        <com.example.freesodoku.RoomLayout
+            android:id="@+id/bottomCenterRoom"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"/>
+
+        <com.example.freesodoku.RoomLayout
+            android:id="@+id/bottomRightRoom"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"/>
 
     </GridLayout>
 
