@@ -1,4 +1,4 @@
-package com.example.freesodoku
+package com.example.freesudoku
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

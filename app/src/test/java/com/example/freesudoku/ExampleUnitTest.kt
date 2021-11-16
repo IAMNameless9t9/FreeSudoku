@@ -1,4 +1,4 @@
-package com.example.freesodoku
+package com.example.freesudoku
 
 import org.junit.Test
 

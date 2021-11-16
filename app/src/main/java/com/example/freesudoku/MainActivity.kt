@@ -1,4 +1,4 @@
-package com.example.freesodoku
+package com.example.freesudoku
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

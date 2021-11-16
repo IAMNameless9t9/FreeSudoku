@@ -7,7 +7,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.example.freesodoku"
+        applicationId "com.example.freesudoku"
         minSdk 27
         targetSdk 31
         versionCode 1

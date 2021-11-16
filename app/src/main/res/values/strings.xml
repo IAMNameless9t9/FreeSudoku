@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FreeSodoku</string>
+    <string name="app_name">FreeSudoku</string>
     <string name="titleLogoDesc">Title Logo</string>
     <string name="playButton">Play/Resume Game</string>
     <string name="statsButton">Statistics</string>
