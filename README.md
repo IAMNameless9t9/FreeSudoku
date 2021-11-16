@@ -1,16 +1,16 @@
-# Ad-Free Sodoku (README.md)
+# Ad-Free Sudoku (README.md)
 
 ## 1 Motivation
-Ad-Free Sodoku is an app that allows you to play Sodoku puzzles, and doesn't contain any annoying ads, or in-app purchases. 
-I'm designing this project for the sole purpose that I wanted an app that will allow me to play sodoku puzzles eaisily and accessibly,
+Ad-Free Sudoku is an app that allows you to play Sudoku puzzles, and doesn't contain any annoying ads, or in-app purchases. 
+I'm designing this project for the sole purpose that I wanted an app that will allow me to play sudoku puzzles eaisily and accessibly,
 without the need for annoyances like daily rewards, in-game-currencies, forced advertisements, or unnecessary in-app-purchases.
-While I don't intend to profit from this app, the target audience would be anyone who, like me, wants a free sodoku app that doesn't contain
+While I don't intend to profit from this app, the target audience would be anyone who, like me, wants a free sudoku app that doesn't contain
 any of the annoyances listed previously.
 
 ## 2 Meeting Minimum Requirements
 The app will consist of four main screens, a Main Menu, a Game Activity, a Stats Page, and an Options Menu.
 The Main Menu consists of three buttons that go to each of the other three screens.
-The Game Activity has the sodoku board, and 9 buttons with which to insert numbers into the puzzle.
+The Game Activity has the sudoku board, and 9 buttons with which to insert numbers into the puzzle.
 The Stats Page shows all data stored by the app (ex: High Score (Best Time), Total Games Won/Lost).
 The Options Menu has a difficulty adjuster, and a color scheme picker.
 
@@ -137,7 +137,7 @@ App Will have integration with Google Play (Better Desc. Coming Soon)
 
 * TITLE: Slider-Difficulty Slider
 
-* DESC: The value of the slider determines the difficulty of newly generated sodoku puzzles.
+* DESC: The value of the slider determines the difficulty of newly generated sudoku puzzles.
 
 **3.1.4.2**
 
@@ -155,8 +155,8 @@ App Will have integration with Google Play (Better Desc. Coming Soon)
 
 #### 3.2.1 Stat Model
 
-* High Score (hh:mm:ss): The fastest time to complete a sodoku puzzle
-* Average Score (hh:mm:ss): The average time to complete a sodoku puzzle
+* High Score (hh:mm:ss): The fastest time to complete a sudoku puzzle
+* Average Score (hh:mm:ss): The average time to complete a sudoku puzzle
 * Total Games Played (Integer): The total number of games started
 * Total Games Won (Integer): The total number of games won, (Integer): The % ratio of games won to games plated
 * Current Win Streak (Integer): The number of games won in a row without reseting the board
