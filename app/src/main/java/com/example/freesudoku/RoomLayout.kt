@@ -1,6 +1,7 @@
 package com.example.freesudoku
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.util.AttributeSet
 import android.util.Log
@@ -12,33 +13,51 @@ import android.widget.TextView
 
 class RoomLayout @JvmOverloads
     constructor(private val ctx: Context, private val attributeSet: AttributeSet? = null, private val defStyleAttr: Int = 0)
-    : GridLayout(ctx, attributeSet, defStyleAttr), GameActivity.Callbacks {
+    : GridLayout(ctx, attributeSet, defStyleAttr), GameActivity.Callback {
 
     private var selectedNum = 0
+    var roomContents = arrayOf(0,0,0,0,0,0,0,0,0)
+    var cells = arrayOf(R.id.topLeft, R.id.topCenter, R.id.topRight,
+        R.id.middleLeft, R.id.middleCenter, R.id.middleRight,
+        R.id.bottomLeft, R.id.bottomCenter, R.id.bottomRight)
 
     init {
         val inflater = ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         inflater.inflate(R.layout.room_layout, this)
 
-        var cells = arrayOf(R.id.topLeft, R.id.topCenter, R.id.topRight,
-        R.id.middleLeft, R.id.middleCenter, R.id.middleRight,
-        R.id.bottomLeft, R.id.bottomCenter, R.id.bottomRight)
-
         for (cell in cells){
             var c: TextView = findViewById(cell)
-            c.setOnClickListener {
-                Log.d("RoomLog", "Room/Cell: " + this.context.resources.getResourceEntryName(this.id) +
-                        " " + c.context.resources.getResourceEntryName(c.id) + " | Selected Num: " + selectedNum)
-                if (selectedNum != 0) {
-                    c.text = selectedNum.toString()
-                }//if
-            }//onClickListener
+                c.setOnClickListener {
+                    Log.d("RoomLog", "Room/Cell: " + this.context.resources.getResourceEntryName(this.id) +
+                            " " + c.context.resources.getResourceEntryName(c.id) + " | Selected Num: " + selectedNum)
+                    if (selectedNum != 0) {
+                        c.text = selectedNum.toString()
+                        roomContents[cells.indexOf(cell)] = selectedNum
+                        var stringOfRoomContents = ""
+                        for (n in roomContents){
+                            stringOfRoomContents += "${n.toString()}, "
+                        }
+                        Log.d("RoomContentsLog", "Contents: [$stringOfRoomContents]")
+                    }//if
+                }//onClickListener
         }//for
     }
 
     override fun updateCurrentNum(currentNum: Int) {
         this.selectedNum = currentNum
         Log.d("RoomLog:", "Updated Current Num?: $selectedNum")
+    }
+
+    override fun updateRoomContent(index: Int, entry: Int) {
+        roomContents[index] = entry
+        for (cell in cells) {
+            var c: TextView = findViewById(cell)
+            if (roomContents[cells.indexOf(cell)] != 0) {
+                c.text = roomContents[cells.indexOf(cell)].toString()
+                c.setTextColor(Color.BLACK)
+                c.setOnClickListener(null)
+            }
+        }
     }
 
 }

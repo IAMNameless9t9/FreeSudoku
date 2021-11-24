@@ -5,4 +5,5 @@
     <string name="statsButton">Statistics</string>
     <string name="optionsButton">Options</string>
     <string name="credits">Programmed by: Nathanael L. Mann | Art by: Ethan Culver</string>
+    <string name="NewGame">New Game</string>
 </resources>
