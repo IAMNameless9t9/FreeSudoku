@@ -17,6 +17,7 @@ class RoomLayout @JvmOverloads
 
     private var selectedNum = 0
     var roomContents = arrayOf(0,0,0,0,0,0,0,0,0)
+    var roomSolution = arrayOf(0,0,0,0,0,0,0,0,0)
     var cells = arrayOf(R.id.topLeft, R.id.topCenter, R.id.topRight,
         R.id.middleLeft, R.id.middleCenter, R.id.middleRight,
         R.id.bottomLeft, R.id.bottomCenter, R.id.bottomRight)
@@ -28,8 +29,7 @@ class RoomLayout @JvmOverloads
         for (cell in cells){
             var c: TextView = findViewById(cell)
                 c.setOnClickListener {
-                    Log.d("RoomLog", "Room/Cell: " + this.context.resources.getResourceEntryName(this.id) +
-                            " " + c.context.resources.getResourceEntryName(c.id) + " | Selected Num: " + selectedNum)
+                    //Log.d("RoomLog", "Room/Cell: " + this.context.resources.getResourceEntryName(this.id) + " " + c.context.resources.getResourceEntryName(c.id) + " | Selected Num: " + selectedNum)
                     if (selectedNum != 0) {
                         c.text = selectedNum.toString()
                         roomContents[cells.indexOf(cell)] = selectedNum
@@ -38,18 +38,24 @@ class RoomLayout @JvmOverloads
                             stringOfRoomContents += "${n.toString()}, "
                         }
                         Log.d("RoomContentsLog", "Contents: [$stringOfRoomContents]")
+                        var stringOfRoomSolution = ""
+                        for (n in roomSolution){
+                            stringOfRoomSolution += "${n.toString()}, "
+                        }
+                        Log.d("RoomSolutionLog", "Contents: [$stringOfRoomSolution]")
                     }//if
                 }//onClickListener
         }//for
     }
 
-    override fun updateCurrentNum(currentNum: Int) {
+    override fun updateCurrentNum(currentNum: Int){
         this.selectedNum = currentNum
-        Log.d("RoomLog:", "Updated Current Num?: $selectedNum")
+        //Log.d("RoomLog:", "Updated Current Num?: $selectedNum")
     }
 
-    override fun updateRoomContent(index: Int, entry: Int) {
+    override fun updateRoomData(index: Int, entry: Int, solution: Int){
         roomContents[index] = entry
+        roomSolution[index] = solution
         for (cell in cells) {
             var c: TextView = findViewById(cell)
             if (roomContents[cells.indexOf(cell)] != 0) {
@@ -58,6 +64,14 @@ class RoomLayout @JvmOverloads
                 c.setOnClickListener(null)
             }
         }
+    }
+
+    override fun checkRoomSolution(): Boolean {
+        for(i in 0..8){
+            if (roomContents[i] != roomSolution[i])
+                return false;
+        }
+        return true;
     }
 
 }

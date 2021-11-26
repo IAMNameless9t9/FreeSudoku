@@ -8,7 +8,9 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 
 private const val TAG = "NumButtonClicked:"
 
@@ -16,18 +18,34 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
 
     var currentNum = 0
 
-    var sudokuGrid = arrayOf(
-        arrayOf(3,1,1,1,1,1,1,1,3),
-        arrayOf(1,1,0,0,0,0,0,1,1),
-        arrayOf(1,0,1,0,0,0,1,0,1),
-        arrayOf(1,0,0,1,0,1,0,0,1),
-        arrayOf(1,0,0,0,2,0,0,0,1),
-        arrayOf(1,0,0,1,0,1,0,0,1),
-        arrayOf(1,0,1,0,0,0,1,0,1),
-        arrayOf(1,1,0,0,0,0,0,1,1),
-        arrayOf(3,1,1,1,1,1,1,1,3),
+    //Placeholder for inputs from API, formatted like traditional sudoku
+    val sudokuGrid = arrayOf(
+        arrayOf(0,0,0,0,0,0,0,0,0),
+        arrayOf(1,1,1,1,1,1,1,1,1),
+        arrayOf(0,0,0,0,0,0,0,0,0),
+        arrayOf(0,0,0,0,0,0,0,0,0),
+        arrayOf(1,1,1,1,1,1,1,1,1),
+        arrayOf(0,0,0,0,0,0,0,0,0),
+        arrayOf(0,0,0,0,0,0,0,0,0),
+        arrayOf(1,1,1,1,1,1,1,1,1),
+        arrayOf(0,0,0,0,0,0,0,0,0)
+    )
+    val solutionGrid = arrayOf(
+        arrayOf(2,2,2,2,2,2,2,2,2),
+        arrayOf(1,1,1,1,1,1,1,1,1),
+        arrayOf(3,3,3,3,3,3,3,3,3),
+        arrayOf(2,2,2,2,2,2,2,2,2),
+        arrayOf(1,1,1,1,1,1,1,1,1),
+        arrayOf(3,3,3,3,3,3,3,3,3),
+        arrayOf(2,2,2,2,2,2,2,2,2),
+        arrayOf(1,1,1,1,1,1,1,1,1),
+        arrayOf(3,3,3,3,3,3,3,3,3)
     )
 
+    //TODO: Figure out how to use the checkRoomSolution callback to update this
+    var roomsSolved = arrayOf(false, false, false, false, false, false, false, false, false)
+
+    //TODO: This can be removed, and logs can be replaced with callbacks
     var roomsContent = arrayOf(
         arrayOf(0,0,0,0,0,0,0,0,0),
         arrayOf(0,0,0,0,0,0,0,0,0),
@@ -43,26 +61,24 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
     val inputButtons = arrayOf(R.id.oneButton, R.id.twoButton, R.id.threeButton, R.id.fourButton,
         R.id.fiveButton, R.id.sixButton, R.id.sevenButton, R.id.eightButton, R.id.nineButton)
 
+    //TODO: Persistent Data
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
+        //TODO: Bring in Puzzle/Solution from API and plug it into sudokuGrid and solutionGrid
+
+        //Initilize onClickListeners for number buttons
         for (button in inputButtons){
             var b: Button = findViewById(button)
             b.setOnClickListener(this)
         }
 
+        //TODO: Make 'New Game' Button call the API and generate a new board
+        //TODO: Add a popup window to confirm new game
+        //TODO: Currently used to test the states of the model
         val newGameButton: Button = findViewById(R.id.newGameButton)
         newGameButton.setOnClickListener{
-            //Using New Game Button as temp to test data
-            var stringOfSudokuGrid = ""
-            for (room in sudokuGrid){
-                for (cell in room){
-                    stringOfSudokuGrid += "$cell "
-                }
-                stringOfSudokuGrid += "\n"
-            }
-            Log.d(TAG, "Sudoku Grid State:\n $stringOfSudokuGrid")
             var stringOfRoomsContent = ""
             for (room in roomsContent){
                 for (cell in room){
@@ -71,6 +87,11 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
                 stringOfRoomsContent += "\n"
             }
             Log.d(TAG, "Room Content State:\n $stringOfRoomsContent")
+            var stringOfRoomsSolved = ""
+            for (bool in roomsSolved){
+                stringOfRoomsSolved += "$bool "
+            }
+            Log.d(TAG, "Rooms Solved: $stringOfRoomsSolved")
         }
 
         //Initialize Callbacks for each of the RoomLayouts
@@ -83,49 +104,47 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
             roomsContent[rooms.indexOf(room)] = r.roomContents
         }
 
-        //Initialize Puzzle
+        //Initialize Puzzle by filling out roomsContent with data from sudokuGrid
         for (row in 0..8){
             for(col in 0..8){
                 val index = row % 3 * 3 + col % 3
                 val entry = sudokuGrid[row][col]
+                val solution = solutionGrid[row][col]
                 if (row in 0..2 && col in 0..2)
-                    callbacks[0].updateRoomContent(index, entry)
-                    //roomsContent[0][index] = entry
+                    callbacks[0].updateRoomData(index, entry, solution)
                 if (row in 0..2 && col in 3..5)
-                    callbacks[1].updateRoomContent(index, entry)
-                    //roomsContent[1][index] = entry
+                    callbacks[1].updateRoomData(index, entry, solution)
                 if (row in 0..2 && col in 6..8)
-                    callbacks[2].updateRoomContent(index, entry)
-                    //roomsContent[2][index] = entry
+                    callbacks[2].updateRoomData(index, entry, solution)
                 if (row in 3..5 && col in 0..2)
-                    callbacks[3].updateRoomContent(index, entry)
-                    //roomsContent[3][index] = entry
+                    callbacks[3].updateRoomData(index, entry, solution)
                 if (row in 3..5 && col in 3..5)
-                    callbacks[4].updateRoomContent(index, entry)
-                    //roomsContent[4][index] = entry
+                    callbacks[4].updateRoomData(index, entry, solution)
                 if (row in 3..5 && col in 6..8)
-                    callbacks[5].updateRoomContent(index, entry)
-                    //roomsContent[5][index] = entry
+                    callbacks[5].updateRoomData(index, entry, solution)
                 if (row in 6..8 && col in 0..2)
-                    callbacks[6].updateRoomContent(index, entry)
-                    //roomsContent[6][index] = entry
+                    callbacks[6].updateRoomData(index, entry, solution)
                 if (row in 6..8 && col in 3..5)
-                    callbacks[7].updateRoomContent(index, entry)
-                    //roomsContent[7][index] = entry
+                    callbacks[7].updateRoomData(index, entry, solution)
                 if (row in 6..8 && col in 6..8)
-                    callbacks[8].updateRoomContent(index, entry)
-                    //roomsContent[8][index] = entry
+                    callbacks[8].updateRoomData(index, entry, solution)
             }//for
         }//for
 
     }//onCreate
 
-    interface Callback {
-        fun updateCurrentNum(n: Int)
-        fun updateRoomContent(index: Int, entry: Int)
+    //Whenever the user interacts with the screen, update roomsSolved
+    override fun onUserInteraction() {
+        for (i in 0..8){
+            roomsSolved[i] = callbacks[i].checkRoomSolution()
+        }
+        if (!roomsSolved.contains(false)){
+            Toast.makeText(this, "PUZZLE SOLVED!", Toast.LENGTH_SHORT).show()
+        }
+        super.onUserInteraction()
     }
-    private var callbacks: MutableList<Callback> = mutableListOf()
 
+    //General Click Handler for Number Buttons
     override fun onClick(v: View){
         when(v.id){
             R.id.oneButton -> currentNum = 1
@@ -143,9 +162,17 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
             b.setBackgroundColor(resources.getColor(R.color.purple_500))
         }
         v.setBackgroundColor(resources.getColor(R.color.purple_700))
-        Log.d(TAG, "CurrentNum: $currentNum")
+        //Log.d(TAG, "CurrentNum: $currentNum")
         for (callback in callbacks) {
             callback.updateCurrentNum(this.currentNum)
         }
     }
+
+    interface Callback {
+        fun updateCurrentNum(n: Int)
+        fun updateRoomData(index: Int, entry: Int, solution: Int)
+        fun checkRoomSolution(): Boolean
+    }
+    private var callbacks: MutableList<Callback> = mutableListOf()
+
 }

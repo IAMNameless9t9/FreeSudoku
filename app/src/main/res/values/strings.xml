@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">FreeSudoku</string>
     <string name="titleLogoDesc">Title Logo</string>
-    <string name="playButton">Play/Resume Game</string>
-    <string name="statsButton">Statistics</string>
-    <string name="optionsButton">Options</string>
+    <string name="playButton">Play Game</string>
+    <string name="statsButton">Statistics (WIP)</string>
+    <string name="optionsButton">Options (WIP)</string>
     <string name="credits">Programmed by: Nathanael L. Mann | Art by: Ethan Culver</string>
     <string name="NewGame">New Game</string>
 </resources>
