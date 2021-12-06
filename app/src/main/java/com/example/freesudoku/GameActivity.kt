@@ -1,50 +1,25 @@
 package com.example.freesudoku
 
-import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import java.io.File
+import androidx.core.content.ContextCompat
 
 private const val TAG = "GameActivity:"
 
 class GameActivity : AppCompatActivity(), View.OnClickListener {
 
-    var currentNum = 0
+    private var currentNum = 0
 
     //Temp manual inputs
-    var sudokuGrid = arrayOf(
-        arrayOf(1,0,0,0,0,0,0,0,1),
-        arrayOf(0,0,0,0,0,0,0,0,0),
-        arrayOf(0,0,0,0,0,0,0,0,0),
-        arrayOf(0,0,0,0,0,0,0,0,0),
-        arrayOf(0,0,0,0,1,0,0,0,0),
-        arrayOf(0,0,0,0,0,0,0,0,0),
-        arrayOf(0,0,0,0,0,0,0,0,0),
-        arrayOf(0,0,0,0,0,0,0,0,0),
-        arrayOf(1,0,0,0,0,0,0,0,1)
-    )
-    var solutionGrid = arrayOf(
-        arrayOf(1,1,1,1,1,1,1,1,1),
-        arrayOf(1,1,1,1,1,1,1,1,1),
-        arrayOf(1,1,1,1,1,1,1,1,1),
-        arrayOf(1,1,1,1,1,1,1,1,1),
-        arrayOf(1,1,1,1,1,1,1,1,1),
-        arrayOf(1,1,1,1,1,1,1,1,1),
-        arrayOf(1,1,1,1,1,1,1,1,1),
-        arrayOf(1,1,1,1,1,1,1,1,1),
-        arrayOf(1,1,1,1,1,1,1,1,1)
-    )
+    private var sudokuGrid = Array(9) {Array(9) {0} }
+    private var solutionGrid = Array(9) {Array(9) {0} }
 
     //roomsSolved[x] is true if the xth room is solved
-    var roomsSolved = arrayOf(false, false, false, false, false, false, false, false, false)
+    private var roomsSolved = arrayOf(false, false, false, false, false, false, false, false, false)
 
     private val inputButtons = arrayOf(R.id.oneButton, R.id.twoButton, R.id.threeButton, R.id.fourButton,
         R.id.fiveButton, R.id.sixButton, R.id.sevenButton, R.id.eightButton, R.id.nineButton)
@@ -57,7 +32,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         val checkSolutionButton: Button = findViewById(R.id.checkSolutionButton)
         checkSolutionButton.setOnClickListener {
             for (i in 0..8){
-                roomsSolved[i] = callbacks[i].checkRoomSolution()
+                roomsSolved[i] = roomCallbacks[i].checkRoomSolution()
             }
             if (!roomsSolved.contains(false)){
                 //TODO: Make this toast a popup windows asking if they want to start a new game instead
@@ -71,65 +46,248 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         //TODO: Add a popup window to confirm new game
         val newGameButton: Button = findViewById(R.id.newGameButton)
         newGameButton.setOnClickListener {
-            for (callback in callbacks){
+            for (callback in roomCallbacks){
                 callback.resetRoom()
             }
+            sudokuGrid = Array(9) {Array(9) {0} }
+            solutionGrid = Array(9) {Array(9) {0} }
+            generateNewSudokuSolution()
+            generateNewSudokuPuzzle(35)
+            initializeRoomData()
         }
 
         //Initialize Callbacks for each of the RoomLayouts
         val rooms = arrayOf(R.id.topLeftRoom, R.id.topCenterRoom, R.id.topRightRoom,
-        R.id.middleLeftRoom, R.id.middleCenterRoom, R.id.middleRightRoom,
-        R.id.bottomLeftRoom, R.id.bottomCenterRoom, R.id.bottomRightRoom)
+            R.id.middleLeftRoom, R.id.middleCenterRoom, R.id.middleRightRoom,
+            R.id.bottomLeftRoom, R.id.bottomCenterRoom, R.id.bottomRightRoom)
         for (room in rooms){
-            var r: RoomLayout = findViewById(room)
-            callbacks.add(r)
+            val r: RoomLayout = findViewById(room)
+            roomCallbacks.add(r)
         }
 
-        //TODO: Generate a new sudoku  when a new game is started (if there isn't one saved), and it's solution
-        /* PSEUDOCODE
-        * if (file.exists()) {
-        *   readFromFile()
-        * } else {
-        *   generateNewSudokuPuzzle()
-        * }*/
+        //TODO: Remove this after testing
+        //generateNewSudokuSolution()
+        //generateNewSudokuPuzzle(35)
 
+        initializeRoomData()
+
+        //Initialize onClickListeners for number buttons
+        for (button in inputButtons) {
+            val b: Button = findViewById(button)
+            b.setOnClickListener(this)
+        }
+
+        //TODO: THIS IS A DEBUG FUNCTION
+        outputGridStates()
+
+    }//onCreate
+
+    private fun gridIsFilled(grid: Array<Array<Int>>): Boolean {
+        for (row in 0..8) {
+            for (col in 0..8) {
+                if (grid[row][col] == 0) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+
+    /* Returns a count of the solutions to a particular grid
+    * 0 Means there are no solutions
+    * 1 Means there is a unique solution
+    * 2 means there is not a unique solution
+    */
+    private fun countSolutions(grid: Array<Array<Int>>, row: Int, col: Int, num: Int, numSolutions: Int): Int {
+        //Check Row
+        for (i in 0..8) {
+            if (grid[row][i] == num)
+                return numSolutions
+        }
+        //Check Col
+        for (i in 0..8) {
+            if (grid[i][col] == num)
+                return numSolutions
+        }
+        //Check Room
+        //identify the room
+        val roomRow: Int = 3*(row/3)
+        val roomCol: Int = 3*(col/3)
+        //check if num is in the room
+        for (r in roomRow..roomRow+2)
+            for (c in roomCol..roomCol+2)
+                if (grid[r][c] == num)
+                    return numSolutions
+        //Check for a solution
+        //make a copy of grid
+        val gridCopy = Array(9) {Array(9) {0} }
+        for (r in 0..8) {
+            for (c in 0..8) {
+                gridCopy[r][c] = grid[r][c]
+            }
+        }
+        //add the num to the copy, and recursively check every possible move until a solution is found
+        gridCopy[row][col] = num
+        //if the grid is full, then a solution was found
+        if (gridIsFilled(gridCopy))
+            return numSolutions + 1
+        for (r in 0..8) {
+            for (c in 0..8) {
+                if (gridCopy[r][c] == 0) {
+                    return (countSolutions(gridCopy, r, c, 1, numSolutions) +
+                            countSolutions(gridCopy, r, c, 2, numSolutions) +
+                            countSolutions(gridCopy, r, c, 3, numSolutions) +
+                            countSolutions(gridCopy, r, c, 4, numSolutions) +
+                            countSolutions(gridCopy, r, c, 5, numSolutions) +
+                            countSolutions(gridCopy, r, c, 6, numSolutions) +
+                            countSolutions(gridCopy, r, c, 7, numSolutions) +
+                            countSolutions(gridCopy, r, c, 8, numSolutions) +
+                            countSolutions(gridCopy, r, c, 9, numSolutions))
+                }
+                if (numSolutions > 1)
+                    break
+            }
+            if (numSolutions > 1)
+                break
+        }
+        //Grid was never filled
+        return numSolutions
+    }
+
+    //Returns: If num can be placed at [row][col] without making an illegal move
+    //TODO: Implement countSolutions in this algorithm
+    private fun validateNewNumPlacement(grid: Array<Array<Int>>, row: Int, col: Int, num: Int): Boolean {
+        //Check Row
+        for (i in 0..8) {
+            if (grid[row][i] == num)
+                return false
+        }
+        //Check Col
+        for (i in 0..8) {
+            if (grid[i][col] == num)
+                return false
+        }
+        //Check Room
+        //identify the room
+        val roomRow: Int = 3*(row/3)
+        val roomCol: Int = 3*(col/3)
+        //check if num is in the room
+        for (r in roomRow..roomRow+2)
+            for (c in roomCol..roomCol+2)
+                if (grid[r][c] == num)
+                    return false
+        //Check for a solution
+        //make a copy of grid
+        val gridCopy = Array(9) {Array(9) {0} }
+        for (r in 0..8) {
+            for (c in 0..8) {
+                gridCopy[r][c] = grid[r][c]
+            }
+        }
+        //add the num to the copy, and recursively check every possible move until a solution is found
+        gridCopy[row][col] = num
+        //if the grid is full, then a solution was found
+        if (gridIsFilled(gridCopy))
+            return true
+        for (r in 0..8) {
+            for (c in 0..8) {
+                if (gridCopy[r][c] == 0) {
+                    return (validateNewNumPlacement(gridCopy, r, c, 1) ||
+                            validateNewNumPlacement(gridCopy, r, c, 2) ||
+                            validateNewNumPlacement(gridCopy, r, c, 3) ||
+                            validateNewNumPlacement(gridCopy, r, c, 4) ||
+                            validateNewNumPlacement(gridCopy, r, c, 5) ||
+                            validateNewNumPlacement(gridCopy, r, c, 6) ||
+                            validateNewNumPlacement(gridCopy, r, c, 7) ||
+                            validateNewNumPlacement(gridCopy, r, c, 8) ||
+                            validateNewNumPlacement(gridCopy, r, c, 9)
+                            )
+                }
+            }
+        }
+        //Grid was never filled
+        return false
+    }
+
+    //Returns: countSolutions after removing num from grid
+    private fun validateNumRemoval(grid: Array<Array<Int>>, row: Int, col: Int, num: Int): Int {
+
+        //create a copy of grid
+        val gridCopy = Array(9){Array(9) {0} }
+        for(r in 0..8) {
+            for (c in 0..8) {
+                gridCopy[r][c] = grid[r][c]
+            }
+        }
+
+        //remove the number from the copy
+        gridCopy[row][col] = 0
+        //Check all possible solutions
+        val solutions = countSolutions(gridCopy, row, col, num, 0)
+        grid[row][col] = num
+        return solutions
+
+    }
+
+    //Fills solutionGrid with a valid sudoku solution
+    private fun generateNewSudokuSolution() {
+        //TODO: Make the rol, col, and num selection random
+        for (row in 0..8) {
+            for (col in 0..8) {
+                for (num in 1..9) {
+                    if (solutionGrid[row][col] == 0 && validateNewNumPlacement(solutionGrid, row, col, num)) {
+                        //Set this to keep the solution
+                        solutionGrid[row][col] = num
+                    }
+                }
+            }
+        }
+    }
+
+    //Removes Entries from sudokuGrid until 35 have been removed, but there is only 1 solution
+    private fun generateNewSudokuPuzzle(numToRemove: Int) {
+        //Copy the solution to the grid so numbers can be removed
+        for (row in 0..8) {
+            for (col in 0..8) {
+                sudokuGrid[row][col] = solutionGrid[row][col]
+            }
+        }
+        //Make a list of 0..80
+        val remainingIndices = MutableList(81){it + 1}
+        //track number of attempts to remove a number
+        var attemptsMade = 0
+        while (remainingIndices.size > 81-numToRemove){
+            val randCell: Int = remainingIndices[(0 until remainingIndices.size-1).random()]
+            val randRow: Int = randCell/9
+            val randCol: Int = randCell%9
+            val solutions = validateNumRemoval(sudokuGrid, randRow, randCol, sudokuGrid[randRow][randCol])
+            if (solutions == 1){
+                //remove the value, and the index
+                sudokuGrid[randRow][randCol] = 0
+                remainingIndices.remove(randCell)
+                //reset attempts
+                attemptsMade = 0
+            }
+            attemptsMade++
+            //if too many attempts made, give up
+            if(attemptsMade >= 3*remainingIndices.size) {
+                break
+            }
+        }
+
+    }
+
+    private fun initializeRoomData() {
         //Initialize Puzzle by filling out roomsContent with data from sudokuGrid
         for (row in 0..8) {
             for(col in 0..8) {
                 val index = row % 3 * 3 + col % 3
                 val entry = sudokuGrid[row][col]
                 val solution = solutionGrid[row][col]
-                if (row in 0..2 && col in 0..2)
-                    callbacks[0].updateRoomData(index, entry, solution)
-                if (row in 0..2 && col in 3..5)
-                    callbacks[1].updateRoomData(index, entry, solution)
-                if (row in 0..2 && col in 6..8)
-                    callbacks[2].updateRoomData(index, entry, solution)
-                if (row in 3..5 && col in 0..2)
-                    callbacks[3].updateRoomData(index, entry, solution)
-                if (row in 3..5 && col in 3..5)
-                    callbacks[4].updateRoomData(index, entry, solution)
-                if (row in 3..5 && col in 6..8)
-                    callbacks[5].updateRoomData(index, entry, solution)
-                if (row in 6..8 && col in 0..2)
-                    callbacks[6].updateRoomData(index, entry, solution)
-                if (row in 6..8 && col in 3..5)
-                    callbacks[7].updateRoomData(index, entry, solution)
-                if (row in 6..8 && col in 6..8)
-                    callbacks[8].updateRoomData(index, entry, solution)
+                val room: Int = 3*(row/3) + (col/3)
+                roomCallbacks[room].updateRoomData(index, entry, solution)
             }//for
         }//for
-
-        //Initialize onClickListeners for number buttons
-        for (button in inputButtons) {
-            var b: Button = findViewById(button)
-            b.setOnClickListener(this)
-        }
-
-    }//onCreate
-
-    fun generateNewSudokuSolution() {
-
     }
 
     //General Click Handler for Number Buttons
@@ -146,23 +304,43 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
             R.id.nineButton -> currentNum = 9
         }
         for (button in inputButtons){
-            var b: Button = findViewById(button)
-            b.setBackgroundColor(resources.getColor(R.color.purple_500))
+            val b: Button = findViewById(button)
+            b.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.purple_500))
         }
-        v.setBackgroundColor(resources.getColor(R.color.purple_700))
+        v.setBackgroundColor(ContextCompat.getColor(applicationContext, R.color.purple_700))
         //Log.d(TAG, "CurrentNum: $currentNum")
-        for (callback in callbacks) {
+        for (callback in roomCallbacks) {
             callback.updateCurrentNum(this.currentNum)
         }
     }
 
     //Callbacks allow RoomLayout to get data from GameActivity
     interface Callback {
-        fun updateCurrentNum(n: Int)
+        fun updateCurrentNum(currentNum: Int)
         fun updateRoomData(index: Int, entry: Int, solution: Int)
         fun checkRoomSolution(): Boolean
         fun resetRoom()
     }
-    private var callbacks: MutableList<Callback> = mutableListOf()
+    private var roomCallbacks: MutableList<Callback> = mutableListOf()
+
+    private fun outputGridStates() {
+        var stringOfSudokuGrid = ""
+        for (row in 0..8) {
+            for (col in 0..8) {
+                stringOfSudokuGrid += "${sudokuGrid[row][col]}"
+            }
+            stringOfSudokuGrid += "\n"
+        }
+        Log.d(TAG, "Sudoku Grid:\n$stringOfSudokuGrid")
+
+        var stringOfSolutionGrid = ""
+        for (row in 0..8) {
+            for (col in 0..8) {
+                stringOfSolutionGrid += "${solutionGrid[row][col]}"
+            }
+            stringOfSolutionGrid += "\n"
+        }
+        Log.d(TAG, "Solution Grid:\n$stringOfSolutionGrid")
+    }
 
 }
