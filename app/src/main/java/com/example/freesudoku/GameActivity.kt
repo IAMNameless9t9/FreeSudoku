@@ -14,7 +14,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
 
     private var currentNum = 0
 
-    //Temp manual inputs
+    //TODO: Make this an easy puzzle for demonstration purposes
     private var sudokuGrid = Array(9) {Array(9) {0} }
     private var solutionGrid = Array(9) {Array(9) {0} }
 
@@ -65,11 +65,10 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
             roomCallbacks.add(r)
         }
 
-        //TODO: Remove this after testing
-        //generateNewSudokuSolution()
-        //generateNewSudokuPuzzle(35)
-
-        initializeRoomData()
+        //TODO: If a game doesn't already exist, generate one on start
+        /*generateNewSudokuSolution()
+        generateNewSudokuPuzzle(35)
+        initializeRoomData()*/
 
         //Initialize onClickListeners for number buttons
         for (button in inputButtons) {
@@ -285,7 +284,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
                 val entry = sudokuGrid[row][col]
                 val solution = solutionGrid[row][col]
                 val room: Int = 3*(row/3) + (col/3)
-                roomCallbacks[room].updateRoomData(index, entry, solution)
+                roomCallbacks[room].setRoomData(index, entry, solution)
             }//for
         }//for
     }
@@ -317,7 +316,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
     //Callbacks allow RoomLayout to get data from GameActivity
     interface Callback {
         fun updateCurrentNum(currentNum: Int)
-        fun updateRoomData(index: Int, entry: Int, solution: Int)
+        fun setRoomData(index: Int, entry: Int, solution: Int)
         fun checkRoomSolution(): Boolean
         fun resetRoom()
     }

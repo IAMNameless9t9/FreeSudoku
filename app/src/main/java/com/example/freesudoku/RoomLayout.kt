@@ -16,8 +16,10 @@ class RoomLayout @JvmOverloads
     private val tag = this.context.resources.getResourceEntryName(this.id).toString()
 
     private var selectedNum = 0
-    private var roomContents = arrayOf(0,0,0,0,0,0,0,0,0)
-    private var roomSolution = arrayOf(0,0,0,0,0,0,0,0,0)
+    private var roomContents = Array(9){0}
+    private var roomSolution = Array(9){0}
+    //Starting Hint: 1 if cell was a starting hint, 0 otherwise
+    private var lockedCells = Array(9){0}
     private var cells = arrayOf(R.id.topLeft, R.id.topCenter, R.id.topRight,
         R.id.middleLeft, R.id.middleCenter, R.id.middleRight,
         R.id.bottomLeft, R.id.bottomCenter, R.id.bottomRight)
@@ -28,7 +30,8 @@ class RoomLayout @JvmOverloads
         val inflater = ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         inflater.inflate(R.layout.room_layout, this)
 
-        file.createNewFile()
+        if (!file.exists())
+            file.createNewFile()
         if (file.exists()) {
             val fileContents = FileInputStream(file).bufferedReader().use { it.readText() }
             var index = 0
@@ -38,17 +41,22 @@ class RoomLayout @JvmOverloads
                     roomContents[index] = num
                 if (index in 9..17)
                     roomSolution[index-9] = num
+                if (index in 18..26)
+                    lockedCells[index-18] = num
                 index++
             }
-            //Log.d(tag, "fileContents: $fileContents")
+            Log.d(tag, "fileContents: $fileContents")
             var roomContentsString = ""
             var roomSolutionString = ""
+            var startingHintString = ""
             for (i in 0..8) {
                 roomContentsString += roomContents[i]
                 roomSolutionString += roomSolution[i]
+                startingHintString += lockedCells[i]
             }
-            //Log.d(tag, "roomContents: $roomContentsString")
-            //Log.d(tag, "roomSolution: $roomSolutionString")
+            Log.d(tag, "roomContents: $roomContentsString")
+            Log.d(tag, "roomSolution: $roomSolutionString")
+            Log.d(tag, "startingHint: $startingHintString")
         } else {
             Log.e(tag, "file does not exist")
         }
@@ -70,26 +78,46 @@ class RoomLayout @JvmOverloads
                     for (i in 0..8) {
                         convertedData += roomSolution[i].toString()
                     }
+                    for (i in 0..8) {
+                        convertedData += lockedCells[i].toString()
+                    }
                     file.writeText(convertedData)
-                }//if
+                }
             }//onClickListener
+            if(lockedCells[cells.indexOf(cell)] == 1) {
+                c.setTextColor(Color.BLACK)
+                c.setOnClickListener(null)
+            }
         }//for
-    }
+    }//init
 
+    //Callback Functions
     override fun updateCurrentNum(currentNum: Int){
         this.selectedNum = currentNum
         //Log.d("RoomLog:", "Updated Current Num?: $selectedNum")
     }
 
-    override fun updateRoomData(index: Int, entry: Int, solution: Int){
+    override fun setRoomData(index: Int, entry: Int, solution: Int){
         roomContents[index] = entry
         roomSolution[index] = solution
         val cell: TextView = findViewById(cells[index])
         if (roomContents[index] != 0) {
             cell.text = entry.toString()
+            lockedCells[index] = 1
             cell.setTextColor(Color.BLACK)
             cell.setOnClickListener(null)
         }
+        var convertedData = ""
+        for (i in 0..8) {
+            convertedData += roomContents[i].toString()
+        }
+        for (i in 0..8) {
+            convertedData += roomSolution[i].toString()
+        }
+        for (i in 0..8) {
+            convertedData += lockedCells[i].toString()
+        }
+        file.writeText(convertedData)
     }
 
     override fun checkRoomSolution(): Boolean {
@@ -101,10 +129,10 @@ class RoomLayout @JvmOverloads
     }
 
     override fun resetRoom() {
-        for (i in 0..8) {
-            roomContents[i] = 0
-            file.writeText("")
-        }
+        roomContents = Array(9){0}
+        roomSolution = Array(9){0}
+        lockedCells = Array(9){0}
+        file.writeText("")
         for (cell in cells) {
             val c: TextView = findViewById(cell)
             c.text = ""
