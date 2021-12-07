@@ -95,9 +95,10 @@
             android:id="@+id/checkSolutionButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/CheckSolution"
+            android:text="@string/CheckSolutionLand"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/newGameButton"
+            android:layout_marginEnd="5dp"
             />
 
         <!--<TextView

@@ -14,7 +14,6 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
 
     private var currentNum = 0
 
-    //TODO: Make this an easy puzzle for demonstration purposes
     private var sudokuGrid = Array(9) {Array(9) {0} }
     private var solutionGrid = Array(9) {Array(9) {0} }
 
@@ -35,15 +34,14 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
                 roomsSolved[i] = roomCallbacks[i].checkRoomSolution()
             }
             if (!roomsSolved.contains(false)){
-                //TODO: Make this toast a popup windows asking if they want to start a new game instead
+                //TODO LATER: Make this toast a popup windows asking if they want to start a new game instead
                 Toast.makeText(this, "PUZZLE SOLVED!", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, "PUZZLE NOT SOLVED!", Toast.LENGTH_SHORT).show()
             }
         }
 
-        //TODO: Make 'New Game' Button generate a new board
-        //TODO: Add a popup window to confirm new game
+        //TODO LATER: Add a popup window to confirm new game
         val newGameButton: Button = findViewById(R.id.newGameButton)
         newGameButton.setOnClickListener {
             for (callback in roomCallbacks){
@@ -65,7 +63,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
             roomCallbacks.add(r)
         }
 
-        //TODO: If a game doesn't already exist, generate one on start
+        //TODO LATER: If a game doesn't already exist, generate one on start
         /*generateNewSudokuSolution()
         generateNewSudokuPuzzle(35)
         initializeRoomData()*/
@@ -76,8 +74,24 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
             b.setOnClickListener(this)
         }
 
-        //TODO: THIS IS A DEBUG FUNCTION
-        outputGridStates()
+        //TODO: Remove Debug Section
+        var stringOfSudokuGrid = ""
+        for (row in 0..8) {
+            for (col in 0..8) {
+                stringOfSudokuGrid += "${sudokuGrid[row][col]}"
+            }
+            stringOfSudokuGrid += "\n"
+        }
+        Log.d(TAG, "Sudoku Grid:\n$stringOfSudokuGrid")
+
+        var stringOfSolutionGrid = ""
+        for (row in 0..8) {
+            for (col in 0..8) {
+                stringOfSolutionGrid += "${solutionGrid[row][col]}"
+            }
+            stringOfSolutionGrid += "\n"
+        }
+        Log.d(TAG, "Solution Grid:\n$stringOfSolutionGrid")
 
     }//onCreate
 
@@ -154,7 +168,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     //Returns: If num can be placed at [row][col] without making an illegal move
-    //TODO: Implement countSolutions in this algorithm
+    //TODO LATER: Implement countSolutions in this algorithm
     private fun validateNewNumPlacement(grid: Array<Array<Int>>, row: Int, col: Int, num: Int): Boolean {
         //Check Row
         for (i in 0..8) {
@@ -230,15 +244,18 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
 
     //Fills solutionGrid with a valid sudoku solution
     private fun generateNewSudokuSolution() {
-        //TODO: Make the rol, col, and num selection random
+        //TODO LATER: Make the rol & col selections random
         for (row in 0..8) {
             for (col in 0..8) {
-                for (num in 1..9) {
-                    if (solutionGrid[row][col] == 0 && validateNewNumPlacement(solutionGrid, row, col, num)) {
+                val numsToTry = mutableListOf(1,2,3,4,5,6,7,8,9)
+                while (numsToTry.isNotEmpty()) {
+                    val randNum = numsToTry[(0 until numsToTry.size).random()]
+                    if (solutionGrid[row][col] == 0 && validateNewNumPlacement(solutionGrid, row, col, randNum)) {
                         //Set this to keep the solution
-                        solutionGrid[row][col] = num
+                        solutionGrid[row][col] = randNum
                     }
-                }
+                    numsToTry.remove(randNum)
+                }//while numsToTry
             }
         }
     }
@@ -269,7 +286,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
             }
             attemptsMade++
             //if too many attempts made, give up
-            if(attemptsMade >= 3*remainingIndices.size) {
+            if(attemptsMade >= (5*remainingIndices.size)) {
                 break
             }
         }
@@ -321,25 +338,5 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         fun resetRoom()
     }
     private var roomCallbacks: MutableList<Callback> = mutableListOf()
-
-    private fun outputGridStates() {
-        var stringOfSudokuGrid = ""
-        for (row in 0..8) {
-            for (col in 0..8) {
-                stringOfSudokuGrid += "${sudokuGrid[row][col]}"
-            }
-            stringOfSudokuGrid += "\n"
-        }
-        Log.d(TAG, "Sudoku Grid:\n$stringOfSudokuGrid")
-
-        var stringOfSolutionGrid = ""
-        for (row in 0..8) {
-            for (col in 0..8) {
-                stringOfSolutionGrid += "${solutionGrid[row][col]}"
-            }
-            stringOfSolutionGrid += "\n"
-        }
-        Log.d(TAG, "Solution Grid:\n$stringOfSolutionGrid")
-    }
 
 }
