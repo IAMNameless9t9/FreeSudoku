@@ -6,10 +6,10 @@
 
     <GridLayout
         android:id="@+id/gameView"
-        android:layout_width="360dp"
+        android:layout_width="720dp"
         android:rowCount="3"
         android:columnCount="3"
-        android:layout_height="360dp"
+        android:layout_height="720dp"
         android:layout_margin="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -99,6 +99,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/newGameButton"
             android:layout_marginEnd="5dp"
+            android:textSize="25sp"
             />
 
         <Button
@@ -107,7 +108,8 @@
             android:layout_height="match_parent"
             android:text="@string/NewGame"
             app:layout_constraintStart_toEndOf="@id/checkSolutionButton"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="25sp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -130,25 +132,25 @@
 
             <Button
                 android:id="@+id/oneButton"
-                android:layout_width="55dp"
-                android:layout_height="65dp"
+                android:layout_width="110dp"
+                android:layout_height="130dp"
                 android:text="1"
-                android:layout_margin="10dp"
-                android:textSize="25sp" />
+                android:layout_margin="20dp"
+                android:textSize="50sp" />
             <Button
                 android:id="@+id/twoButton"
-                android:layout_width="55dp"
-                android:layout_height="65dp"
+                android:layout_width="110dp"
+                android:layout_height="130dp"
                 android:text="2"
-                android:layout_margin="10dp"
-                android:textSize="25sp"/>
+                android:layout_margin="20dp"
+                android:textSize="50sp"/>
             <Button
                 android:id="@+id/threeButton"
-                android:layout_width="55dp"
-                android:layout_height="65dp"
+                android:layout_width="110dp"
+                android:layout_height="130dp"
                 android:text="3"
-                android:layout_margin="10dp"
-                android:textSize="25sp"/>
+                android:layout_margin="20dp"
+                android:textSize="50sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -160,25 +162,25 @@
 
             <Button
                 android:id="@+id/fourButton"
-                android:layout_width="55dp"
-                android:layout_height="65dp"
+                android:layout_width="110dp"
+                android:layout_height="130dp"
                 android:text="4"
-                android:layout_margin="10dp"
-                android:textSize="25sp"/>
+                android:layout_margin="20dp"
+                android:textSize="50sp"/>
             <Button
                 android:id="@+id/fiveButton"
-                android:layout_width="55dp"
-                android:layout_height="65dp"
+                android:layout_width="110dp"
+                android:layout_height="130dp"
                 android:text="5"
-                android:layout_margin="10dp"
-                android:textSize="25sp"/>
+                android:layout_margin="20dp"
+                android:textSize="50sp"/>
             <Button
                 android:id="@+id/sixButton"
-                android:layout_width="55dp"
-                android:layout_height="65dp"
+                android:layout_width="110dp"
+                android:layout_height="130dp"
                 android:text="6"
-                android:layout_margin="10dp"
-                android:textSize="25sp"/>
+                android:layout_margin="20dp"
+                android:textSize="50sp"/>
 
         </LinearLayout>
 
@@ -191,25 +193,25 @@
 
             <Button
                 android:id="@+id/sevenButton"
-                android:layout_width="55dp"
-                android:layout_height="65dp"
+                android:layout_width="110dp"
+                android:layout_height="130dp"
                 android:text="7"
-                android:layout_margin="10dp"
-                android:textSize="25sp"/>
+                android:layout_margin="20dp"
+                android:textSize="50sp"/>
             <Button
                 android:id="@+id/eightButton"
-                android:layout_width="55dp"
-                android:layout_height="65dp"
+                android:layout_width="110dp"
+                android:layout_height="130dp"
                 android:text="8"
-                android:layout_margin="10dp"
-                android:textSize="25sp"/>
+                android:layout_margin="20dp"
+                android:textSize="50sp"/>
             <Button
                 android:id="@+id/nineButton"
-                android:layout_width="55dp"
-                android:layout_height="65dp"
+                android:layout_width="110dp"
+                android:layout_height="130dp"
                 android:text="9"
-                android:layout_margin="10dp"
-                android:textSize="25sp"/>
+                android:layout_margin="20dp"
+                android:textSize="50sp"/>
 
         </LinearLayout>
 

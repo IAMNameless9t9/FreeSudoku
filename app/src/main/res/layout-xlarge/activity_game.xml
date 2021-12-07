@@ -2,18 +2,50 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/gameActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button
+            android:id="@+id/checkSolutionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/CheckSolution"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/newGameButton"
+            android:textSize="25sp"
+            />
+
+        <Button
+            android:id="@+id/newGameButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/NewGame"
+            app:layout_constraintStart_toEndOf="@id/checkSolutionButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="25sp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <GridLayout
         android:id="@+id/gameView"
-        android:layout_width="360dp"
+        android:layout_width="720dp"
         android:rowCount="3"
         android:columnCount="3"
-        android:layout_height="360dp"
-        android:layout_margin="20dp"
+        android:layout_height="720dp"
+        android:layout_margin="30dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/topBar"
+        app:layout_constraintTop_toBottomOf="@id/topBar"
+        app:layout_constraintEnd_toEndOf="parent"
         android:background="@color/black">
 
         <com.example.freesudoku.RoomLayout
@@ -81,44 +113,14 @@
 
     </GridLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/topBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/gameView"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <Button
-            android:id="@+id/checkSolutionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/CheckSolutionLand"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/newGameButton"
-            android:layout_marginEnd="5dp"
-            />
-
-        <Button
-            android:id="@+id/newGameButton"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/NewGame"
-            app:layout_constraintStart_toEndOf="@id/checkSolutionButton"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <LinearLayout
         android:id="@+id/masterButtonLayout"
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
-        app:layout_constraintTop_toBottomOf="@+id/topBar"
-        app:layout_constraintStart_toEndOf="@id/gameView"
+        app:layout_constraintTop_toBottomOf="@+id/gameView"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
@@ -130,55 +132,49 @@
 
             <Button
                 android:id="@+id/oneButton"
-                android:layout_width="55dp"
-                android:layout_height="65dp"
+                android:layout_width="110dp"
+                android:layout_height="130dp"
                 android:text="1"
-                android:layout_margin="10dp"
-                android:textSize="25sp" />
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:textSize="50sp" />
             <Button
                 android:id="@+id/twoButton"
-                android:layout_width="55dp"
-                android:layout_height="65dp"
+                android:layout_width="110dp"
+                android:layout_height="130dp"
                 android:text="2"
-                android:layout_margin="10dp"
-                android:textSize="25sp"/>
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:textSize="50sp"/>
             <Button
                 android:id="@+id/threeButton"
-                android:layout_width="55dp"
-                android:layout_height="65dp"
+                android:layout_width="110dp"
+                android:layout_height="130dp"
                 android:text="3"
-                android:layout_margin="10dp"
-                android:textSize="25sp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/middleRowButtonLayout"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center">
-
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:textSize="50sp"/>
             <Button
                 android:id="@+id/fourButton"
-                android:layout_width="55dp"
-                android:layout_height="65dp"
+                android:layout_width="110dp"
+                android:layout_height="130dp"
                 android:text="4"
-                android:layout_margin="10dp"
-                android:textSize="25sp"/>
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:textSize="50sp"/>
             <Button
                 android:id="@+id/fiveButton"
-                android:layout_width="55dp"
-                android:layout_height="65dp"
+                android:layout_width="110dp"
+                android:layout_height="130dp"
                 android:text="5"
-                android:layout_margin="10dp"
-                android:textSize="25sp"/>
-            <Button
-                android:id="@+id/sixButton"
-                android:layout_width="55dp"
-                android:layout_height="65dp"
-                android:text="6"
-                android:layout_margin="10dp"
-                android:textSize="25sp"/>
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:textSize="50sp"/>
 
         </LinearLayout>
 
@@ -190,26 +186,41 @@
             android:layout_gravity="center">
 
             <Button
+                android:id="@+id/sixButton"
+                android:layout_width="110dp"
+                android:layout_height="130dp"
+                android:text="6"
+                android:layout_marginBottom="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:textSize="50sp"/>
+            <Button
                 android:id="@+id/sevenButton"
-                android:layout_width="55dp"
-                android:layout_height="65dp"
+                android:layout_width="110dp"
+                android:layout_height="130dp"
                 android:text="7"
-                android:layout_margin="10dp"
-                android:textSize="25sp"/>
+                android:layout_marginBottom="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:textSize="50sp"/>
             <Button
                 android:id="@+id/eightButton"
-                android:layout_width="55dp"
-                android:layout_height="65dp"
+                android:layout_width="110dp"
+                android:layout_height="130dp"
                 android:text="8"
-                android:layout_margin="10dp"
-                android:textSize="25sp"/>
+                android:layout_marginBottom="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:textSize="50sp"/>
             <Button
                 android:id="@+id/nineButton"
-                android:layout_width="55dp"
-                android:layout_height="65dp"
+                android:layout_width="110dp"
+                android:layout_height="130dp"
                 android:text="9"
-                android:layout_margin="10dp"
-                android:textSize="25sp"/>
+                android:layout_marginBottom="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:textSize="50sp"/>
 
         </LinearLayout>
 
