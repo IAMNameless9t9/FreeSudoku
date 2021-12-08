@@ -61,6 +61,40 @@ class RoomLayout @JvmOverloads
             Log.e(tag, "file does not exist")
         }
 
+    }//init
+
+    //Callback Functions
+    override fun updateCurrentNum(currentNum: Int){
+        this.selectedNum = currentNum
+        //Log.d("RoomLog:", "Updated Current Num?: $selectedNum")
+    }
+
+    override fun setRoomData(index: Int, entry: Int, solution: Int){
+        roomContents[index] = entry
+        roomSolution[index] = solution
+        val cell: TextView = findViewById(cells[index])
+        if (roomContents[index] != 0) {
+            cell.text = entry.toString()
+            lockedCells[index] = 1
+            cell.setTextColor(Color.BLACK)
+            cell.setOnClickListener(null)
+        } else {
+            cell.setTextColor(Color.GRAY)
+        }
+        var convertedData = ""
+        for (i in 0..8) {
+            convertedData += roomContents[i].toString()
+        }
+        for (i in 0..8) {
+            convertedData += roomSolution[i].toString()
+        }
+        for (i in 0..8) {
+            convertedData += lockedCells[i].toString()
+        }
+        file.writeText(convertedData)
+    }
+
+    override fun onCreateGameActivity() {
         for (cell in cells){
             val c: TextView = findViewById(cell)
             if(roomContents[cells.indexOf(cell)] != 0)
@@ -89,35 +123,6 @@ class RoomLayout @JvmOverloads
                 c.setOnClickListener(null)
             }
         }//for
-    }//init
-
-    //Callback Functions
-    override fun updateCurrentNum(currentNum: Int){
-        this.selectedNum = currentNum
-        //Log.d("RoomLog:", "Updated Current Num?: $selectedNum")
-    }
-
-    override fun setRoomData(index: Int, entry: Int, solution: Int){
-        roomContents[index] = entry
-        roomSolution[index] = solution
-        val cell: TextView = findViewById(cells[index])
-        if (roomContents[index] != 0) {
-            cell.text = entry.toString()
-            lockedCells[index] = 1
-            cell.setTextColor(Color.BLACK)
-            cell.setOnClickListener(null)
-        }
-        var convertedData = ""
-        for (i in 0..8) {
-            convertedData += roomContents[i].toString()
-        }
-        for (i in 0..8) {
-            convertedData += roomSolution[i].toString()
-        }
-        for (i in 0..8) {
-            convertedData += lockedCells[i].toString()
-        }
-        file.writeText(convertedData)
     }
 
     override fun checkRoomSolution(): Boolean {
@@ -136,6 +141,25 @@ class RoomLayout @JvmOverloads
         for (cell in cells) {
             val c: TextView = findViewById(cell)
             c.text = ""
+            c.setOnClickListener {
+                if (selectedNum != 0) {
+                    //Update room data
+                    c.text = selectedNum.toString()
+                    roomContents[cells.indexOf(cell)] = selectedNum
+                    //Save Data to file
+                    var convertedData = ""
+                    for (i in 0..8) {
+                        convertedData += roomContents[i].toString()
+                    }
+                    for (i in 0..8) {
+                        convertedData += roomSolution[i].toString()
+                    }
+                    for (i in 0..8) {
+                        convertedData += lockedCells[i].toString()
+                    }
+                    file.writeText(convertedData)
+                }
+            }//onClickListener
         }
     }
 }

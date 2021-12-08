@@ -7,18 +7,26 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import java.lang.StringBuilder
 
 private const val TAG = "GameActivity:"
 
-class GameActivity : AppCompatActivity(), View.OnClickListener {
+class GameActivity : AppCompatActivity(), View.OnClickListener, ConfirmNewGameDialogFragment.NewGameDialogListener {
 
     private var currentNum = 0
 
-    private var sudokuGrid = Array(9) {Array(9) {0} }
-    private var solutionGrid = Array(9) {Array(9) {0} }
+    private var sudokuGrid = Array(9) { Array(9) {0} }
+    private var solutionGrid = Array(9) { Array(9) {0} }
 
     //roomsSolved[x] is true if the xth room is solved
-    private var roomsSolved = arrayOf(false, false, false, false, false, false, false, false, false)
+    private var roomsSolved = Array(9) {false}
+
+    var database = FirebaseDatabase.getInstance().reference
+    private var totalGamesPlayed = 0
 
     private val inputButtons = arrayOf(R.id.oneButton, R.id.twoButton, R.id.threeButton, R.id.fourButton,
         R.id.fiveButton, R.id.sixButton, R.id.sevenButton, R.id.eightButton, R.id.nineButton)
@@ -26,6 +34,19 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
+
+        //Set totalGamesPlayed from FireBase
+        val getData = object: ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val data = snapshot.value
+                totalGamesPlayed = data?.toString()?.toInt() ?: 0
+            }
+        }
+        database.addValueEventListener(getData)
+        database.addListenerForSingleValueEvent(getData)
 
         //Check solution button updates the correctness of the solution, and notifies the player if they've solved the puzzle correctly
         val checkSolutionButton: Button = findViewById(R.id.checkSolutionButton)
@@ -41,17 +62,12 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
 
-        //TODO LATER: Add a popup window to confirm new game
         val newGameButton: Button = findViewById(R.id.newGameButton)
         newGameButton.setOnClickListener {
-            for (callback in roomCallbacks){
-                callback.resetRoom()
-            }
-            sudokuGrid = Array(9) {Array(9) {0} }
-            solutionGrid = Array(9) {Array(9) {0} }
-            generateNewSudokuSolution()
-            generateNewSudokuPuzzle(35)
-            initializeRoomData()
+
+            val dialogFragment = ConfirmNewGameDialogFragment()
+            dialogFragment.show(supportFragmentManager, "confirmNewGameDialog")
+
         }
 
         //Initialize Callbacks for each of the RoomLayouts
@@ -63,19 +79,24 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
             roomCallbacks.add(r)
         }
 
+        for (callback in roomCallbacks) {
+            callback.onCreateGameActivity()
+        }
+
         //TODO LATER: If a game doesn't already exist, generate one on start
         /*generateNewSudokuSolution()
         generateNewSudokuPuzzle(35)
         initializeRoomData()*/
 
+        //TODO LATER: Make this remember what button was pressed when rotating
         //Initialize onClickListeners for number buttons
         for (button in inputButtons) {
             val b: Button = findViewById(button)
             b.setOnClickListener(this)
         }
 
-        //TODO: Remove Debug Section
-        var stringOfSudokuGrid = ""
+        //TODO LATER: Remove Debug Section
+        /*var stringOfSudokuGrid = ""
         for (row in 0..8) {
             for (col in 0..8) {
                 stringOfSudokuGrid += "${sudokuGrid[row][col]}"
@@ -91,7 +112,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
             }
             stringOfSolutionGrid += "\n"
         }
-        Log.d(TAG, "Solution Grid:\n$stringOfSolutionGrid")
+        Log.d(TAG, "Solution Grid:\n$stringOfSolutionGrid")*/
 
     }//onCreate
 
@@ -111,6 +132,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
     * 1 Means there is a unique solution
     * 2 means there is not a unique solution
     */
+    //TODO LATER: Fails to recognize final pair of solutions, resulting in two switchable numbers in the final puzzle. This has been fixed in ValidateNumRemoval, but should be fixed in countSolutions
     private fun countSolutions(grid: Array<Array<Int>>, row: Int, col: Int, num: Int, numSolutions: Int): Int {
         //Check Row
         for (i in 0..8) {
@@ -268,6 +290,9 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
                 sudokuGrid[row][col] = solutionGrid[row][col]
             }
         }
+        var lastRow = 0
+        var lastCol = 0
+        var lastNum = 0
         //Make a list of 0..80
         val remainingIndices = MutableList(81){it + 1}
         //track number of attempts to remove a number
@@ -278,6 +303,10 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
             val randCol: Int = randCell%9
             val solutions = validateNumRemoval(sudokuGrid, randRow, randCol, sudokuGrid[randRow][randCol])
             if (solutions == 1){
+                //save data so it can be restored
+                lastRow = randRow
+                lastCol = randCol
+                lastNum = sudokuGrid[randRow][randCol]
                 //remove the value, and the index
                 sudokuGrid[randRow][randCol] = 0
                 remainingIndices.remove(randCell)
@@ -287,6 +316,7 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
             attemptsMade++
             //if too many attempts made, give up
             if(attemptsMade >= (5*remainingIndices.size)) {
+                sudokuGrid[lastRow][lastCol] = lastNum
                 break
             }
         }
@@ -336,7 +366,24 @@ class GameActivity : AppCompatActivity(), View.OnClickListener {
         fun setRoomData(index: Int, entry: Int, solution: Int)
         fun checkRoomSolution(): Boolean
         fun resetRoom()
+        fun onCreateGameActivity()
     }
     private var roomCallbacks: MutableList<Callback> = mutableListOf()
+
+    override fun onFinishDialog(startNewGame: Boolean) {
+        if (startNewGame) {
+            for (callback in roomCallbacks){
+                callback.resetRoom()
+            }
+            sudokuGrid = Array(9) {Array(9) {0} }
+            solutionGrid = Array(9) {Array(9) {0} }
+            generateNewSudokuSolution()
+            generateNewSudokuPuzzle(35)
+            initializeRoomData()
+        }
+        totalGamesPlayed++
+        Log.d(TAG, "Total Games Played: $totalGamesPlayed")
+        database.setValue(totalGamesPlayed)
+    }
 
 }

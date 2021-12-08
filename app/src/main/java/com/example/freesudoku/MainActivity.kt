@@ -7,16 +7,19 @@ import android.widget.Button
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var playButton: Button
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        playButton = findViewById(R.id.playButton)
-
+        val playButton: Button = findViewById(R.id.playButton)
         playButton.setOnClickListener {
             val intent = Intent(this, GameActivity::class.java)
+            startActivity(intent)
+        }
+
+        val statsButton: Button = findViewById(R.id.statsButton)
+        statsButton.setOnClickListener {
+            val intent = Intent(this, StatsActivity::class.java)
             startActivity(intent)
         }
 

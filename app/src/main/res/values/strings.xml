@@ -2,10 +2,15 @@
     <string name="app_name">FreeSudoku</string>
     <string name="titleLogoDesc">Title Logo</string>
     <string name="playButton">Play Game</string>
-    <string name="statsButton">Statistics (WIP)</string>
-    <string name="optionsButton">Options (WIP)</string>
+    <string name="statsButton">Statistics</string>
+    <string name="optionsButton">Options</string>
     <string name="credits">Programmed by: Nathanael L. Mann | Art by: Ethan Culver</string>
     <string name="NewGame">New Game</string>
     <string name="CheckSolution">Check Solution</string>
     <string name="CheckSolutionLand">Check</string>
+    <string name="StartNewGame">Start New Game?</string>
+    <string name="ThisCannotBeUndone">(This cannot be undone!)</string>
+    <string name="Confirm">Confirm</string>
+    <string name="Cancel">Cancel</string>
+    <string name="GamesPlayed">Please Connect to the Internet</string>
 </resources>

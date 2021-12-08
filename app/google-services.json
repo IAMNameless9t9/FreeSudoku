@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "9086176248",
+    "firebase_url": "https://freesudoku-27e81-default-rtdb.firebaseio.com",
+    "project_id": "freesudoku-27e81",
+    "storage_bucket": "freesudoku-27e81.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9086176248:android:52b435f2f70e8902af640d",
+        "android_client_info": {
+          "package_name": "com.example.freesudoku"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "9086176248-99m7c0anm8db9vv5498d43p7tlh8oi8j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGTjNE5Zeq5Tnd-Du8-nOZhnY6yA1ixb8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "9086176248-99m7c0anm8db9vv5498d43p7tlh8oi8j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

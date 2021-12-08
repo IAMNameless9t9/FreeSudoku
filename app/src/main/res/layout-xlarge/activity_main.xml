@@ -48,7 +48,7 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/playButton"
-            android:textSize="25sp"/>
+            android:textSize="40sp"/>
 
         <Button
             android:id="@+id/optionsButton"
@@ -59,7 +59,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/statsButton"
             app:layout_constraintBottom_toTopOf="@id/creditText"
-            android:textSize="25sp"/>
+            android:textSize="40sp"/>
 
     </LinearLayout>
 
