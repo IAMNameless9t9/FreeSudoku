@@ -17,11 +17,16 @@ The Options Menu has a difficulty adjuster, and a color scheme picker.
 ### 2.1 User Interface
 #### 2.1.1 Main Menu
 
-![Main Menu Diagram](/assets/images/MainMenu.PNG)
+<!-- ![Main Menu Diagram](/assets/images/MainMenu.PNG) -->
+![Main Menu Vertical Preview](/assets/images/mainMenuVertical.png)
+![Main Menu Horizontal Preview](/assets/images/mainMenuHorizontal.png)
 
 #### 2.1.2 Game Activity
 
-![Game Activity Diagram](/assets/images/GameActivity.PNG)
+<!-- ![Game Activity Diagram](/assets/images/GameActivity.PNG) -->
+![Game Activity Vertical Preview](/assets/images/gameVertical.png)
+![Game Activity Horizontal Preview](/assets/images/gameHorizontal.png)
+![New Game Pop-up Preview](/assets/images/newGameVertical.png)
 
 #### 2.1.3 Stats Page
 
